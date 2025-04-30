@@ -18,15 +18,18 @@ public class Graphe implements VarGraph {
 
     @Override
     public void ajouterArc(String source, String destination, Integer valeur) {
-        assert !graph.isEmpty();
-        assert graph.containsKey(source);
-        assert graph.containsKey(destination);
+        if (!graph.containsKey(source) || !graph.containsKey(destination)) {
+            throw new IllegalArgumentException("Sommet absent");
+        }
+        if (graph.get(source).containsKey(destination)) {
+            throw new IllegalArgumentException("Arc déjà existant");
+        }
         graph.get(source).put(destination, valeur);
     }
 
     @Override
     public List<Arc<String>> getSucc(String s) {
-        assert !graph.isEmpty();
+
         assert graph.containsKey(s);
 
         // Récupérer les voisins du sommet 's'
@@ -40,6 +43,26 @@ public class Graphe implements VarGraph {
             successeurs.add(new Arc<>(poids, successeur));  // Créer un Arc avec le poids et la destination
         }
         return successeurs;
+    }
+
+    public boolean isEmpty() {
+        return graph.isEmpty();
+    }
+
+    public HashMap<String, Integer> getVoisins(String s) {
+        return graph.get(s);
+    }
+
+
+    public boolean isContains(String s) {
+        return graph.containsKey(s);
+    }
+
+    public boolean isConnected(String source, String destination) {
+        if (!graph.containsKey(source) || !graph.containsKey(destination)) {
+            throw new IllegalArgumentException("Sommet absent");
+        }
+        return graph.get(source).containsKey(destination);
     }
 
     public String toString(){
