@@ -69,14 +69,13 @@ public class Graphe implements VarGraph {
         for (String source : graph.keySet()) { // parcours toute les clé de notre graph
             HashMap<String, Integer> voisins = graph.get(source); // mets dans voisin, la liste des successeurs
             if (voisins.isEmpty()) { // si "source" n'a pas de succésseur, on affiche rien apres -->
-                sb.append(source).append(" --> \n");
+                sb.append(source).append(": ");
             } else {
                 for (String dest : voisins.keySet()) { // parcours les clé de la hashmap qui correspond au voisins de "source"
                     int poids = voisins.get(dest); // on stock pour chaque succ, son poids,
-                    sb.append(source).append(" --> ").append(dest) // syntaxe perso
-                            .append(" (").append(poids).append(")  ");
+                    sb.append(source).append("-").append(dest) // syntaxe perso
+                            .append("(").append(poids).append("), ");
                 }
-                sb.append("\n");
             }
         }
         return sb.toString();

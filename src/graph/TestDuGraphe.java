@@ -25,7 +25,7 @@ public class TestDuGraphe {
         assertFalse(graphe.isConnected("B", "A"));
 
 
-        System.out.println("Contenu du graphe :");
+        System.out.print("Graphe :");
         System.out.println(graphe);
     }
 }
