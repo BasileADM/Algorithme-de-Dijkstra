@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Graphe implements VarGraph {
 
-    private HashMap<String, HashMap<String, Integer>> graph = new HashMap<>();
+    private final HashMap<String, HashMap<String, Integer>> graph = new HashMap<>();
 
     @Override
     public void ajouterSommet(String noeud) {
@@ -30,7 +30,9 @@ public class Graphe implements VarGraph {
     @Override
     public List<Arc<String>> getSucc(String s) {
 
-        assert graph.containsKey(s);
+        if (!graph.containsKey(s)){
+            throw new IllegalArgumentException("Sommet absent");
+        }
 
         // Récupérer les voisins du sommet 's'
         HashMap<String, Integer> voisins = graph.get(s);
@@ -54,10 +56,6 @@ public class Graphe implements VarGraph {
     }
 
 
-    public boolean isContains(String s) {
-        return graph.containsKey(s);
-    }
-
     public boolean isConnected(String source, String destination) {
         if (!graph.containsKey(source) || !graph.containsKey(destination)) {
             throw new IllegalArgumentException("Sommet absent");
@@ -68,7 +66,7 @@ public class Graphe implements VarGraph {
     public String toString(){
         StringBuilder sb = new StringBuilder();
         for (String s : graph.keySet()) {
-            sb.append(s + "------> " + graph.get(s) + "\n");
+            sb.append(s).append("------> ").append(graph.get(s)).append("\n");
         }
         return sb.toString();
     }
