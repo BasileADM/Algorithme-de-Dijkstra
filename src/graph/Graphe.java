@@ -63,13 +63,20 @@ public class Graphe implements VarGraph {
         return graph.get(source).containsKey(destination);
     }
 
+    public int poids(String source, String destination) {
+        if (!graph.containsKey(source) || !graph.containsKey(destination)) {
+            throw new IllegalArgumentException("Sommet absent");
+        }
+        return graph.get(source).get(destination);
+    }
+
 
     public String toString() {
         StringBuilder sb = new StringBuilder();
         for (String source : graph.keySet()) { // parcours toute les clé de notre graph
             HashMap<String, Integer> voisins = graph.get(source); // mets dans voisin, la liste des successeurs
             if (voisins.isEmpty()) { // si "source" n'a pas de succésseur, on affiche rien apres -->
-                sb.append(source).append(": ");
+                sb.append(source).append(":, ");
             } else {
                 for (String dest : voisins.keySet()) { // parcours les clé de la hashmap qui correspond au voisins de "source"
                     int poids = voisins.get(dest); // on stock pour chaque succ, son poids,

@@ -13,7 +13,6 @@ public class TestDuGraphe {
         graphe.ajouterSommet("C");
 
         assertFalse(graphe.isEmpty());
-
         assertTrue(graphe.getVoisins("A").isEmpty());
         assertTrue(graphe.getVoisins("B").isEmpty());
         assertTrue(graphe.getVoisins("C").isEmpty());
@@ -21,11 +20,14 @@ public class TestDuGraphe {
         graphe.ajouterArc("A", "B", 2);
         graphe.ajouterArc("A", "C", 5);
 
+
         assertTrue(graphe.isConnected("A", "B"));
+        assertTrue(graphe.isConnected("A", "C"));
         assertFalse(graphe.isConnected("B", "A"));
+        assertEquals(graphe.poids("A", "B"), 2);
+        assertEquals(graphe.poids("A", "C"), 5);
 
-
-        System.out.print("Graphe :");
+        System.out.print("Graphe : ");
         System.out.println(graphe);
     }
 }
