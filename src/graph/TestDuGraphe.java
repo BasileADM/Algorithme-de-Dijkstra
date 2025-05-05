@@ -1,9 +1,12 @@
 package graph;
 
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestDuGraphe {
-    public static void main(String[] args) {
+    @Test
+    void test() {
         Graphe graphe = new Graphe();
 
         assertTrue(graphe.isEmpty());
@@ -11,6 +14,7 @@ public class TestDuGraphe {
         graphe.ajouterSommet("A");
         graphe.ajouterSommet("B");
         graphe.ajouterSommet("C");
+        graphe.ajouterSommet("D");
 
         assertFalse(graphe.isEmpty());
         assertTrue(graphe.getVoisins("A").isEmpty());
@@ -26,6 +30,7 @@ public class TestDuGraphe {
         assertFalse(graphe.isConnected("B", "A"));
         assertEquals(graphe.poids("A", "B"), 2);
         assertEquals(graphe.poids("A", "C"), 5);
+        assertTrue(graphe.isConnected("A", "Z")); // exception destination absent
 
         System.out.print("Graphe : ");
         System.out.println(graphe);

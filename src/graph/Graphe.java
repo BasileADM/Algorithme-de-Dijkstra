@@ -57,8 +57,11 @@ public class Graphe implements VarGraph {
 
 
     public boolean isConnected(String source, String destination) {
-        if (!graph.containsKey(source) || !graph.containsKey(destination)) {
-            throw new IllegalArgumentException("Sommet absent");
+        if (!graph.containsKey(source)) {
+            throw new IllegalArgumentException("Sommet source absent");
+        }
+        else if (!graph.containsKey(destination)) {
+            throw new IllegalArgumentException("Sommet destination absent");
         }
         return graph.get(source).containsKey(destination);
     }
