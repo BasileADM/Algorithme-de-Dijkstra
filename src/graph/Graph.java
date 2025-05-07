@@ -1,5 +1,6 @@
 package graph;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -10,6 +11,8 @@ import java.util.List;
  * @param <T> Identifiant des sommets. Le type doit disposer d'une méthode hashcode.
  */
 public interface Graph<T> {
+    Collection<T> getNodes();
+
     /**
      * Un arc du graphe (désigné par sa valuation et le sommet destination).
      *
@@ -25,4 +28,6 @@ public interface Graph<T> {
      * @return La liste des arcs sortants de {@code s}.
      */
     List<Arc<T>> getSucc(T s);
+
+
 }

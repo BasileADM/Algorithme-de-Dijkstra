@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TestDuGraphe {
     @Test
     void test() {
-        Graphe graphe = new Graphe();
+        GrapheHHAdj graphe = new GrapheHHAdj();
 
         assertTrue(graphe.isEmpty());
 
@@ -34,11 +34,12 @@ public class TestDuGraphe {
 
         System.out.print("Graphe : ");
         System.out.println(graphe);
+        System.out.print("Liste sommets: " + graphe.getNodes());
 
 
 
         // ajout automatique des sommets par ajouterArc avec un deuxieme graphe
-        Graphe g2 = new Graphe();
+        GrapheHHAdj g2 = new GrapheHHAdj();
         g2.ajouterArc("X", "Y", 10); // X et Y pas encore ajoutés
         assertTrue(g2.isConnected("X", "Y"));
         assertEquals(10, g2.poids("X", "Y"));
