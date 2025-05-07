@@ -34,5 +34,23 @@ public class TestDuGraphe {
 
         System.out.print("Graphe : ");
         System.out.println(graphe);
+
+
+
+        // ajout automatique des sommets par ajouterArc avec un deuxieme graphe
+        Graphe g2 = new Graphe();
+        g2.ajouterArc("X", "Y", 10); // X et Y pas encore ajoutés
+        assertTrue(g2.isConnected("X", "Y"));
+        assertEquals(10, g2.poids("X", "Y"));
+
+        // double ajout d'arc = exception
+        assertThrows(IllegalArgumentException.class, () -> g2.ajouterArc("X", "Y", 10));
+
+        // exceptions pour sommets ou arcs inexistants
+        assertThrows(IllegalArgumentException.class, () -> graphe.getVoisins("Z"));
+        assertThrows(IllegalArgumentException.class, () -> graphe.poids("A", "Z"));
+        assertThrows(IllegalArgumentException.class, () -> graphe.isConnected("A", "Z"));
+        assertThrows(IllegalArgumentException.class, () -> graphe.getSucc("Z"));
+
     }
 }

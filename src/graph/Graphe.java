@@ -52,6 +52,9 @@ public class Graphe implements VarGraph {
     }
 
     public HashMap<String, Integer> getVoisins(String s) {
+        if (!graph.containsKey(s)){
+            throw new IllegalArgumentException("Sommet absent");
+        }
         return graph.get(s);
     }
 
