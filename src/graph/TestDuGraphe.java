@@ -52,5 +52,13 @@ public class TestDuGraphe {
         assertThrows(IllegalArgumentException.class, () -> graphe.isConnected("A", "Z"));
         assertThrows(IllegalArgumentException.class, () -> graphe.getSucc("Z"));
 
+        String representation = graphe.toString();
+        assertTrue(representation.contains("A-B(2)"));
+        assertTrue(representation.contains("A-C(5)"));
+
+        String representation2 = g2.toString();
+        assertTrue(representation2.contains("X-Y(10)"));
+        assertFalse(representation2.contains("A-B(12)"));
+
     }
 }
