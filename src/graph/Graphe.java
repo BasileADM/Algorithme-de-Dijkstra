@@ -18,13 +18,13 @@ public class Graphe implements VarGraph {
 
     @Override
     public void ajouterArc(String source, String destination, Integer valeur) {
-        if (!graph.containsKey(source) || !graph.containsKey(destination)) { // si la source et la destination n'existe pas, EXCEPTION
-            throw new IllegalArgumentException("Sommet absent");
-        }
-        if (graph.get(source).containsKey(destination)) { // si la source, a deja cette destination, EXCEPTION pour eviter d'écraser
+        ajouterSommet(source);      // ajoute s'ils n'existent pas
+        ajouterSommet(destination);
+
+        if (graph.get(source).containsKey(destination)) {
             throw new IllegalArgumentException("Arc déjà existant");
         }
-        graph.get(source).put(destination, valeur); // on ajoute a la valeur de source (hasmMap des voisins) sa destination et son poids
+        graph.get(source).put(destination, valeur);
     }
 
     @Override

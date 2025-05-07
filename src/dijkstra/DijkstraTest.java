@@ -5,7 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 
 import graph.Graph;
-import graph.GrapheHHAdj;
+import graph.Graphe;
 import graph.ShortestPath.Distances;
 import graph.VarGraph;
 import org.junit.jupiter.api.Test;
@@ -18,7 +18,7 @@ class DijkstraTest {
 
 	@Test
 	void test() {
-		VarGraph g = new GrapheHHAdj();
+		VarGraph g = new Graphe();
 		g.peupler("A-B(6), A-C(1), A-D(2), B-E(1), C-E(4), D-B(1), E-F(1)");
 		tester(g);
 	}
