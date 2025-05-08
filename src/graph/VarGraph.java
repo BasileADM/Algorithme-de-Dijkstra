@@ -24,10 +24,10 @@ public interface VarGraph extends Graph<String> {
 	        String target = elements[1];
 	        if (!target.isEmpty()) {
 	             String dest = target.substring(0, target.indexOf('('));
-	             int val = Integer.parseInt(target
-	                	.substring(target.indexOf('(') + 1,
-	                				   target.indexOf(')')));
-	             ajouterSommet(dest);
+	             int val;
+                val = Integer.parseInt(target.substring(target.indexOf('(') + 1,
+                                      target.indexOf(')')));
+                ajouterSommet(dest);
 	             ajouterArc(src, dest, val);
 	        }
 	    }

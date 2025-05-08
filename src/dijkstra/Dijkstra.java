@@ -8,6 +8,15 @@ import java.util.*;
 public class Dijkstra<S> {
 
     public ShortestPath.Distances<S> compute(Graph<S> g, S from) {
+        // Vérifie tous les arcs pour détecter les poids négatifs avant de démarrer
+        for (S node : g.getNodes()) {
+            for (Graph.Arc<S> arc : g.getSucc(node)) {
+                if (arc.val() < 0) {
+                    throw new IllegalArgumentException("Arc de poids négatif détecté : " + node + " -> " + arc.dst());
+                }
+            }
+        }
+
         HashMap<S, Integer> distances = new HashMap<>(); // afin de stocker la distance la plus courte entre "from" et chaque sommets
         HashMap<S, S> predecessors = new HashMap<>(); // afin de stocker chaque sommet avec son predecesseur le plus court
 
@@ -26,12 +35,6 @@ public class Dijkstra<S> {
             for (Graph.Arc<S> arc : g.getSucc(current)) { // stock dans arc la list des successeur
                 S voisin = arc.dst(); // le nom du voisin
                 int poids = arc.val(); // avec son poids
-
-                // Si poids négatifs
-                if (poids < 0) {
-                    throw new IllegalArgumentException("Arc de poids négatif détecté : " + current + " -> " + voisin);
-                }
-
                 int newDistance = distances.get(current) + poids; // Calcule la distance depuis le courant
 
                 if (newDistance < distances.get(voisin)) { // si la distance est inférieur a un autre chemin, c'est le nouveau plus petit chemin

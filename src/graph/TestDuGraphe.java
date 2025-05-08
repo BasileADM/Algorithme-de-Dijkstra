@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class TestDuGraphe {
+class TestDuGraphe {
     @Test
     void test() {
         GrapheHHAdj graphe = new GrapheHHAdj();
