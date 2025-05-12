@@ -1,5 +1,6 @@
-package graph;
+package graph.test;
 
+import graph.Graphe;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -37,7 +38,19 @@ class TestDuGraphe {
         System.out.print("Liste sommets: " + graphe.getNodes());
 
 
+        // exceptions pour sommets ou arcs inexistants
+        assertThrows(IllegalArgumentException.class, () -> graphe.getVoisins("Z"));
+        assertThrows(IllegalArgumentException.class, () -> graphe.poids("A", "Z"));
+        assertThrows(IllegalArgumentException.class, () -> graphe.isConnected("A", "Z"));
+        assertThrows(IllegalArgumentException.class, () -> graphe.getSucc("Z"));
+        String representation = graphe.toString();
 
+        assertTrue(representation.contains("A-B(2)"));
+        assertTrue(representation.contains("A-C(5)"));
+    }
+
+    @Test
+    void test2() {
         // ajout automatique des sommets par ajouterArc avec un deuxieme graphe
         Graphe g2 = new Graphe();
         g2.ajouterArc("X", "Y", 10); // X et Y pas encore ajoutés
@@ -46,20 +59,9 @@ class TestDuGraphe {
 
         // double ajout d'arc = exception
         assertThrows(IllegalArgumentException.class, () -> g2.ajouterArc("X", "Y", 10));
-
-        // exceptions pour sommets ou arcs inexistants
-        assertThrows(IllegalArgumentException.class, () -> graphe.getVoisins("Z"));
-        assertThrows(IllegalArgumentException.class, () -> graphe.poids("A", "Z"));
-        assertThrows(IllegalArgumentException.class, () -> graphe.isConnected("A", "Z"));
-        assertThrows(IllegalArgumentException.class, () -> graphe.getSucc("Z"));
-
-        String representation = graphe.toString();
-        assertTrue(representation.contains("A-B(2)"));
-        assertTrue(representation.contains("A-C(5)"));
-
         String representation2 = g2.toString();
         assertTrue(representation2.contains("X-Y(10)"));
         assertFalse(representation2.contains("A-B(12)"));
-
     }
+
 }
