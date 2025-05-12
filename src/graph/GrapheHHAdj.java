@@ -1,53 +1,99 @@
 package graph;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
 public class GrapheHHAdj implements VarGraph {
 
-    private final HashMap<String, HashMap<String, Integer>> graph = new HashMap<>();
 
+	private final HashMap<String, List<Arc<String>>> graph = new HashMap<>();
 
-    @Override
-    public Collection<String> getNodes() {
-        return graph.keySet();
-    }
+	@Override
+	public List<Arc<String>> getSucc(String s) {
+		if (!graph.containsKey(s)) {
+			throw new IllegalArgumentException("Sommet absent");
+		}
+		return new ArrayList<>(graph.get(s));
+	}
 
-    @Override
-    public List<Arc<String>> getSucc(String s) {
-        if (!graph.containsKey(s)){ // si il n'existe pas, EXCEPTION
-            throw new IllegalArgumentException("Sommet absent");
-        }
+	@Override
+	public void ajouterSommet(String noeud) {
+		graph.putIfAbsent(noeud, new ArrayList<>());
+	}
 
-        // Récupérer les voisins du sommet 's'
-        HashMap<String, Integer> voisins = graph.get(s); // voisin = 'b'
+	@Override
+	public void ajouterArc(String source, String destination, Integer valeur) {
+		ajouterSommet(source);
+		ajouterSommet(destination);
 
-        // Créer la liste des arcs (les voisins avec leur poids)
-        List<Arc<String>> successeurs = new ArrayList<>();
+		List<Arc<String>> voisins = graph.get(source);
+		for (Arc<String> arc : voisins) {
+			if (arc.dst().equals(destination)) {
+				throw new IllegalArgumentException("Arc déjà existant");
+			}
+		}
+		voisins.add(new Arc<>(valeur, destination));
+	}
 
-        for (String suc : voisins.keySet()) { // parcours toute les clé donc les sommets
-            Integer poids = voisins.get(suc); // on met le integer de la haspmap (le poids du coup) dans une variable afin de pouvoir la réutiliser
-            successeurs.add(new Arc<>(poids, suc));  // Créer un Arc avec le poids et la destination
-        }
-        return successeurs;
-    }
+	public List<String> getAllSommets() {
+		return new ArrayList<>(graph.keySet());
+	}
 
-    @Override
-    public void ajouterSommet(String noeud) {
-        graph.putIfAbsent(noeud, new HashMap<>());
-    }
+	public boolean isGraphEmpty() {
+		return graph.isEmpty();
+	}
 
-    @Override
-    public void ajouterArc(String source, String destination, Integer valeur) {
-        ajouterSommet(source);      // ajoute s'ils n'existent pas
-        ajouterSommet(destination);
+	public boolean isConnected(String source, String destination) {
+		if (!graph.containsKey(source)) {
+			throw new IllegalArgumentException("Sommet absent");
+		}
+		else if (!graph.containsKey(destination)) {
+			throw new IllegalArgumentException("Sommet absent");
+		}
+		for (Arc<String> arc : graph.get(source)) {
+			if (arc.dst().equals(destination)) {
+				return true; // Si on trouve l'arc entre source et destination
+			}
+		}
 
-        if (graph.get(source).containsKey(destination)) {
-            throw new IllegalArgumentException("Arc déjà existant");
-        }
-        graph.get(source).put(destination, valeur);
-    }
+		return false; // Aucun arc trouvé entre source et destination
+	}
+
+	public int getPoids(String source, String destination) {
+		if (!graph.containsKey(source)) {
+			throw new IllegalArgumentException("Sommet source introuvable : " + source);
+		}
+
+		for (Arc<String> arc : graph.get(source)) {
+			if (arc.dst().equals(destination)) {
+				return arc.val(); // ← Poids trouvé
+			}
+		}
+		throw new IllegalArgumentException("Aucun arc de " + source + " vers " + destination);
+	}
+
+	public List<Arc<String>> getVoisins(String source) {
+		if (!graph.containsKey(source)) {
+			throw new IllegalArgumentException("Sommet source introuvable : " + source);
+		}
+		return graph.get(source);
+	}
+
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for (String source : graph.keySet()) { // Parcours de toutes les clés (les sommets)
+			List<Arc<String>> voisins = graph.get(source); // Liste des successeurs de 'source'
+			if (voisins.isEmpty()) { // Si 'source' n'a pas de successeurs
+				sb.append(source).append(": , ");
+			} else {
+				for (Arc<String> arc : voisins) {
+					sb.append(source).append("-").append(arc.dst()).append("(").append(arc.val()).append("), ");
+				}
+			}
+		}
+		return sb.toString();
+	}
+
 
 }
