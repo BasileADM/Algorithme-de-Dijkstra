@@ -1,5 +1,6 @@
-package graph;
+package graph.test;
 
+import graph.GrapheHHAdj;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

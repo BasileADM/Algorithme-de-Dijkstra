@@ -12,7 +12,6 @@ import java.util.List;
  */
 public interface Graph<T> {
 
-	List<String> getAllSommets();
 
 	/**
 	 * Un arc du graphe (désigné par sa valuation et le sommet destination).
