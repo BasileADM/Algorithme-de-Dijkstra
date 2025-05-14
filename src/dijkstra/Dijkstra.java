@@ -30,7 +30,7 @@ public class Dijkstra<T> implements ShortestPath<T> {
 		while (!pq.isEmpty()) {
 			T current = pq.poll();
 			if (visited.containsKey(current) && visited.get(current)) {
-				continue; // Si le sommet a déjà été visité, on l'ignore
+				continue; // si le sommet a déjà été visité, on l'ignore
 			}
 			visited.put(current, true);
 
@@ -38,7 +38,7 @@ public class Dijkstra<T> implements ShortestPath<T> {
 				T voisin = arc.dst();
 				int poids = arc.val();
 
-				// Vérification du poids négatif
+				// vérification du poids négatif
 				if (poids < 0) {
 					throw new IllegalArgumentException("Arc de poids négatif détecté : " + current + " -> " + voisin);
 				}
