@@ -7,52 +7,49 @@ import graph.ShortestPath;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.PriorityQueue;
-import java.lang.String;
 
 public class Dijkstra<T> implements ShortestPath<T> {
 
 	@Override
-	public Distances<T> compute(Graph<T> g, T src, Animator<T> animator) throws IllegalArgumentException {
-		return compute(g, src);
-	}
-
-	public ShortestPath.Distances<T> compute(Graph<T> g, T from) {
+	public Distances<T> compute(Graph<T> graphe, T source, Animator<T> animateur) throws IllegalArgumentException {
 		HashMap<T, Integer> distances = new HashMap<>();
-		HashMap<T, T> predecessors = new HashMap<>();
-		HashMap<T, Boolean> visited = new HashMap<>();
+		HashMap<T, T> predecesseurs = new HashMap<>();
+		HashMap<T, Boolean> visites = new HashMap<>();
 
-		distances.put(from, 0);
-		predecessors.put(from, null);
+		distances.put(source, 0);
+		predecesseurs.put(source, null);
 
-		PriorityQueue<T> pq = new PriorityQueue<>(Comparator.comparingInt(distances::get));
-		pq.add(from);
+		PriorityQueue<T> filePriorite = new PriorityQueue<>(Comparator.comparingInt(distances::get));
+		filePriorite.add(source);
 
-		while (!pq.isEmpty()) {
-			T current = pq.poll();
-			if (visited.containsKey(current) && visited.get(current)) {
-				continue; // si le sommet a déjà été visité, on l'ignore
+		while (!filePriorite.isEmpty()) {
+			T courant = filePriorite.poll();
+			if (visites.getOrDefault(courant, false)) {
+				continue;
 			}
-			visited.put(current, true);
+			visites.put(courant, true);
 
-			for (GrapheHHAdj.Arc<T> arc : g.getSucc(current)) {
+			// Animation : une distance est définitivement connue
+			animateur.accept(courant, distances.get(courant));
+
+			for (GrapheHHAdj.Arc<T> arc : graphe.getSucc(courant)) {
 				T voisin = arc.dst();
 				int poids = arc.val();
 
-				// vérification du poids négatif
 				if (poids < 0) {
-					throw new IllegalArgumentException("Arc de poids négatif détecté : " + current + " -> " + voisin);
+					throw new IllegalArgumentException("Arc de poids négatif détecté : " + courant + " -> " + voisin);
 				}
 
-				int newDistance = distances.get(current) + poids;
+				int nouvelleDistance = distances.get(courant) + poids;
 
-				if (newDistance < distances.getOrDefault(voisin, Integer.MAX_VALUE)) {
-					distances.put(voisin, newDistance);
-					predecessors.put(voisin, current);
-					pq.add(voisin);
+				if (nouvelleDistance < distances.getOrDefault(voisin, Integer.MAX_VALUE)) {
+					distances.put(voisin, nouvelleDistance);
+					predecesseurs.put(voisin, courant);
+					filePriorite.add(voisin);
 				}
 			}
 		}
 
-		return new ShortestPath.Distances<>(distances, predecessors);
+		return new ShortestPath.Distances<>(distances, predecesseurs);
 	}
 }
