@@ -10,46 +10,61 @@ import java.util.PriorityQueue;
 
 public class Dijkstra<T> implements ShortestPath<T> {
 
-	@Override
-	public Distances<T> compute(Graph<T> graphe, T source, Animator<T> animateur) throws IllegalArgumentException {
-		HashMap<T, Integer> distances = new HashMap<>();
-		HashMap<T, T> predecesseurs = new HashMap<>();
-		HashMap<T, Boolean> visites = new HashMap<>();
+    @Override
+    public Distances<T> compute(Graph<T> graphe, T source, Animator<T> animateur) throws IllegalArgumentException {
+        // Contient les distances minimales connues depuis la source jusqu'à chaque sommet
+        HashMap<T, Integer> distances = new HashMap<>();
+        
+        // Contient le prédécesseur de chaque sommet dans le plus court chemin trouvé
+        HashMap<T, T> predecesseurs = new HashMap<>();
+        
+        // Marque les sommets déjà traités
+        HashMap<T, Boolean> visites = new HashMap<>();
 
-		distances.put(source, 0);
-		predecesseurs.put(source, null);
+        // La distance à la source elle-même est 0
+        distances.put(source, 0);
+        predecesseurs.put(source, null);
 
-		PriorityQueue<T> filePriorite = new PriorityQueue<>(Comparator.comparingInt(distances::get));
-		filePriorite.add(source);
+        // File de priorité pour sélectionner le sommet avec la plus petite distance connue
+        PriorityQueue<T> filePriorite = new PriorityQueue<>(Comparator.comparingInt(distances::get));
+        filePriorite.add(source);
 
-		while (!filePriorite.isEmpty()) {
-			T courant = filePriorite.poll();
-			if (visites.getOrDefault(courant, false)) {
-				continue;
-			}
-			visites.put(courant, true);
+        // Traitement de tous les sommets accessibles depuis la source
+        while (!filePriorite.isEmpty()) {
+            T courant = filePriorite.poll();
 
-			// Animation : une distance est définitivement connue
-			animateur.accept(courant, distances.get(courant));
+            // Si le sommet a déjà été visité, on le saute
+            if (visites.getOrDefault(courant, false)) {
+                continue;
+            }
+            visites.put(courant, true);
 
-			for (GrapheHHAdj.Arc<T> arc : graphe.getSucc(courant)) {
-				T voisin = arc.dst();
-				int poids = arc.val();
+            // Animation (visualisation) : on indique que la distance pour ce sommet est désormais définitive
+            animateur.accept(courant, distances.get(courant));
 
-				if (poids < 0) {
-					throw new IllegalArgumentException("Arc de poids négatif détecté : " + courant + " -> " + voisin);
-				}
+            // On parcourt tous les arcs sortants du sommet courant
+            for (GrapheHHAdj.Arc<T> arc : graphe.getSucc(courant)) {
+                T voisin = arc.dst();       // Sommet voisin
+                int poids = arc.val();      // Poids de l'arc courant -> voisin
 
-				int nouvelleDistance = distances.get(courant) + poids;
+                // Si l'algorithme rencontre un poids négatif, on lève une exception
+                if (poids < 0) {
+                    throw new IllegalArgumentException("Arc de poids négatif détecté : " + courant + " -> " + voisin);
+                }
 
-				if (nouvelleDistance < distances.getOrDefault(voisin, Integer.MAX_VALUE)) {
-					distances.put(voisin, nouvelleDistance);
-					predecesseurs.put(voisin, courant);
-					filePriorite.add(voisin);
-				}
-			}
-		}
+                // Calcul de la nouvelle distance potentielle
+                int nouvelleDistance = distances.get(courant) + poids;
 
-		return new ShortestPath.Distances<>(distances, predecesseurs);
-	}
+                // Si la nouvelle distance est meilleure, on met à jour
+                if (nouvelleDistance < distances.getOrDefault(voisin, Integer.MAX_VALUE)) {
+                    distances.put(voisin, nouvelleDistance);   // mise à jour de la distance
+                    predecesseurs.put(voisin, courant);        // mise à jour du prédécesseur
+                    filePriorite.add(voisin);                 // ajout dans la file pour traitement futur
+                }
+            }
+        }
+
+        // On retourne l’objet contenant les distances finales et les prédécesseurs pour reconstruire les chemins
+        return new ShortestPath.Distances<>(distances, predecesseurs);
+    }
 }
