@@ -1,7 +1,6 @@
-# SAE-Java-graph.Graphe de Ayoub CHIKHI, Basile Clement & Mo'ad Bendjeddou du Groupe 111
+# SAE-S2.2  Ayoub CHIKHI, Basile Clement & Mo'ad Bendjeddou du Groupe 111
 
 
-# Ce qui marche : 
 Partie I :
 
     Après une série de tests de notre classe GrapheHHAdj, nous avons pu conclure que celle-ci fonctionne correctement.
