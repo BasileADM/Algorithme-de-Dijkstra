@@ -6,7 +6,6 @@ import java.util.List;
 
 public class GrapheHHAdj implements VarGraph {
 
-
     private final HashMap<String, List<Arc<String>>> graph = new HashMap<>();
 
     @Override
@@ -36,14 +35,29 @@ public class GrapheHHAdj implements VarGraph {
         list.add(new Arc<>(valeur, destination));
     }
 
+    /**
+     * @brief Retourne tous les sommets présents dans le graphe
+     * @return Une liste contenant les identifiants de tous les sommets
+     */
     public List<String> getAllSommets() {
         return new ArrayList<>(graph.keySet());
     }
 
+    /**
+     * @brief Vérifie si le graphe est vide
+     * @return true si le graphe ne contient aucun sommet, false sinon
+     */
     public boolean isGraphEmpty() {
         return graph.isEmpty();
     }
 
+    /**
+     * @brief Vérifie si un arc existe entre deux sommets
+     * @param source Le sommet de départ
+     * @param destination Le sommet d'arrivée
+     * @return true si un arc existe entre source et destination, false sinon
+     * @throws IllegalArgumentException si l'un des sommets n'existe pas dans le graphe
+     */
     public boolean isConnected(String source, String destination) {
         if (!graph.containsKey(source)) {
             throw new IllegalArgumentException("Sommet inexistant");
@@ -56,9 +70,17 @@ public class GrapheHHAdj implements VarGraph {
                 return true;
             }
         }
-        return false; // Aucun arc trouvé entre source et destination
+        return false;
     }
-	public int getPoids(String source, String destination) {
+
+    /**
+     * @brief Récupère le poids (valeur) de l'arc entre deux sommets
+     * @param source Le sommet source
+     * @param destination Le sommet destination
+     * @return La valeur (poids) de l'arc entre source et destination
+     * @throws IllegalArgumentException si l'arc n'existe pas ou si le sommet source est absent
+     */
+    public int getPoids(String source, String destination) {
         if (!graph.containsKey(source)) {
             throw new IllegalArgumentException("Sommet source inexistant" + source);
         }
@@ -68,9 +90,14 @@ public class GrapheHHAdj implements VarGraph {
             }
         }
         throw new IllegalArgumentException("aucun arc entre " + source + " et " + destination);
-
     }
 
+    /**
+     * @brief Récupère la liste des voisins (successeurs) d'un sommet donné
+     * @param source Le sommet source
+     * @return Une liste d'arcs représentant les voisins de ce sommet
+     * @throws IllegalArgumentException si le sommet n'existe pas
+     */
     public List<Arc<String>> getVoisins(String source) {
         if (!graph.containsKey(source)) {
             throw new IllegalArgumentException("Sommet source inexistant" + source);
@@ -78,11 +105,15 @@ public class GrapheHHAdj implements VarGraph {
         return graph.get(source);
     }
 
+    /**
+     * @brief Fournit une représentation textuelle du graphe.
+     * @return Une chaîne de caractères représentant tous les arcs du graphe.
+     */
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (String source : graph.keySet()) { // Parcours de toutes les clés (les sommets)
-            List<Arc<String>> voisins = graph.get(source); // Liste des successeurs de 'source'
-            if (voisins.isEmpty()) { // Si 'source' n'a pas de successeurs
+        for (String source : graph.keySet()) {
+            List<Arc<String>> voisins = graph.get(source);
+            if (voisins.isEmpty()) {
                 sb.append(source).append(":, ");
             } else {
                 for (Arc<String> arc : voisins) {
