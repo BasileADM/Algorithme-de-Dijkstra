@@ -32,7 +32,7 @@ class DijkstraTest {
 	void tester(Graph<String> g) {
 		Distances<String> dst = dijkstra.compute(g, FROM);
 		assertEquals(EXPECTED_DIST, dst.dist().get(TO));
-		String c = EXPECTED_PATH.get(0);
+		String c = EXPECTED_PATH.getFirst();
 		for (String s : EXPECTED_PATH) {
 			assertEquals(s, c);
 			c = dst.pred().get(c);

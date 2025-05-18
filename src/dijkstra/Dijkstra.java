@@ -15,8 +15,7 @@ import java.util.PriorityQueue;
 public class Dijkstra<T> implements ShortestPath<T> {
 
     /**
-     * @brief Calcule les plus courts chemins depuis un sommet source vers tous les autres sommets du graphe.
-     *
+     * @brief Calcule les plus courts chemins depuis un sommet source vers tous les autres sommets du graphe
      * L'algorithme utilise une file de priorité et rejette tout arc ayant un poids négatif. Un animateur est appelé
      * pour chaque sommet traité (utile pour l'affichage ou le suivi).
      *
