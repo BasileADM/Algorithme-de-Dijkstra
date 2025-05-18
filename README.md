@@ -2,10 +2,14 @@
 
 
 # Ce qui marche : 
-    Partie I : 
-        - Après une serie de test de notre classe GrapheHHAdj, nous avons pu conclure que notre classe fonctionne
-        - En fonction de la classe test DijkstraTest, nous avons pu en deduire que notre classe Dijkstra fonctionne aussi mais pour en être sur, 4 autre graphe on été testé (2 sans valuations négative et 2 avec valuation négative afin de verifier l'imcompatibilité d'appliquer l'algorithme de Dijkstra
+Partie I :
 
-    Partie II : 
-        - La classe Checker nous a permis de nous montrer que les test fournis sur Moddle passent avec tout les labyrinte
-        - Adaptateur GraphMaze a été codé et fonctionne (mise à part le fait que nous n'avons pas su comment faire pour verifier que "s" de type "T" existe vraiment ?)
+    Après une série de tests de notre classe GrapheHHAdj, nous avons pu conclure que celle-ci fonctionne correctement.
+
+    En nous basant sur la classe de test DijkstraTest, nous avons également déduit que notre implémentation de Dijkstra fonctionne. Pour en être certains, nous avons testé quatre autres graphes : deux sans valuations négatives et deux avec valuations négatives, afin de vérifier l'incompatibilité de l'algorithme de Dijkstra avec ce type de graphes.
+
+Partie II :
+
+    La classe Checker nous a permis de constater que les tests fournis sur Moodle passent avec tous les labyrinthes.
+
+    L'adaptateur GraphMaze a été codé et fonctionne, à l’exception du point suivant : nous n’avons pas su comment vérifier que le sommet s de type T existe réellement.
