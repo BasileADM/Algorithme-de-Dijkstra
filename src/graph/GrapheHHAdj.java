@@ -63,7 +63,7 @@ public class GrapheHHAdj implements VarGraph {
             throw new IllegalArgumentException("Sommet inexistant");
         }
         if (!graph.containsKey(destination)) {
-            throw new IllegalArgumentException("Sommet inexistant");
+            throw new IllegalArgumentException("Sommet destination inexistant");
         }
         for (Arc<String> arc : graph.get(source)) {
             if (arc.dst().equals(destination)) {
